@@ -29,22 +29,41 @@ namespace DAL.Repositories
 
         public async Task<List<BookingDTO>> GetAllAsync()
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var bookings = await _context.Bookings.ToListAsync();
+            return _mapper.Map<List<BookingDTO>>(bookings);
         }
 
         public async Task<BookingDTO> CreateAsync(BookingDTO booking)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var bookingEntity = _mapper.Map<Booking>(booking);
+            _context.Bookings.Add(bookingEntity);
+            bookingEntity.CreatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return _mapper.Map<BookingDTO>(bookingEntity);
         }
 
         public async Task<BookingDTO?> UpdateAsync(BookingDTO booking)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var existingEntity = await _context.Bookings.FindAsync(booking.Id);
+            if (existingEntity == null)
+                return null;
+
+            _mapper.Map(booking, existingEntity);
+            _context.Bookings.Update(existingEntity);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<BookingDTO>(existingEntity);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var bookingEntity = await _context.Bookings.FindAsync(id);
+            if (bookingEntity == null)
+                return false;
+
+            bookingEntity.Status = (int)Status.Deleted;
+            _context.Bookings.Update(bookingEntity);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
