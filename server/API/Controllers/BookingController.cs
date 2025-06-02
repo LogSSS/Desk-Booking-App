@@ -27,7 +27,12 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var booking = await _bookingService.GetByIdAsync(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return Ok(booking);
         }
 
         [HttpPost]

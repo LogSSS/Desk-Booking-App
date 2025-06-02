@@ -1,3 +1,4 @@
+using AutoMapper;
 using Core.IRepositories;
 using Core.Services;
 using Core.Services.IServices;
@@ -22,6 +23,13 @@ namespace API
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new DAL.Mapping.MappingProfile());
+                cfg.AddProfile(new API.Mapping.APIMappingProfile());
+            });
+            services.AddSingleton(config.CreateMapper());
             services.AddControllers();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IBookingRepository, BookingRepository>();
@@ -32,7 +40,11 @@ namespace API
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            AppDbContext dbContext
+        )
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +62,8 @@ namespace API
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

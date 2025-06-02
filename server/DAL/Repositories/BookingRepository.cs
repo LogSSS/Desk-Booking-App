@@ -2,6 +2,7 @@ using AutoMapper;
 using Core.DTOs;
 using Core.IRepositories;
 using DAL.Data;
+using DAL.Entities;
 
 namespace DAL.Repositories
 {
@@ -19,7 +20,11 @@ namespace DAL.Repositories
 
         public async Task<BookingDTO?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+                return null;
+
+            return _mapper.Map<BookingDTO>(booking);
         }
 
         public async Task<List<BookingDTO>> GetAllAsync()
