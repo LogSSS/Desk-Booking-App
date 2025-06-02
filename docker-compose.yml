@@ -1,0 +1,24 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booking
+    ports:
+      - "5433:5433"
+    restart: always
+    volumes:
+      - app_data:/var/lib/postgres/data
+    networks:
+      - dev
+
+volumes:
+  app_data:
