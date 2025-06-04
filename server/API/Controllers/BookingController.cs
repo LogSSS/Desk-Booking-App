@@ -1,5 +1,6 @@
 using API.Entities;
 using AutoMapper;
+using Core.DTOs;
 using Core.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,7 +53,7 @@ namespace API.Controllers
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             var createdBooking = await _bookingService.CreateAsync(bookingDTO);
 
-            return CreatedAtAction(createdBooking);
+            return Ok(createdBooking);
         }
 
         [HttpPut("{id}")]
