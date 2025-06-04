@@ -1,5 +1,6 @@
 using API.Entities;
 using AutoMapper;
+using Core.DTOs;
 using Core.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var bookings = await _bookingService.GetAllAsync();
+
+            return Ok(bookings);
         }
 
         [HttpGet("{id}")]
@@ -29,9 +32,8 @@ namespace API.Controllers
         {
             var booking = await _bookingService.GetByIdAsync(id);
             if (booking == null)
-            {
                 return NotFound();
-            }
+
             return Ok(booking);
         }
 
@@ -40,7 +42,18 @@ namespace API.Controllers
             [FromBody] UpsertBookingRequest upsertBookingRequest
         )
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            if (!ModelState.IsValid)
+                return BadRequest(
+                    string.Join(
+                        ", ",
+                        ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
+                    )
+                );
+
+            var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
+            var createdBooking = await _bookingService.CreateAsync(bookingDTO);
+
+            return Ok(createdBooking);
         }
 
         [HttpPut("{id}")]
@@ -49,13 +62,29 @@ namespace API.Controllers
             [FromBody] UpsertBookingRequest upsertBookingRequest
         )
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            if (!ModelState.IsValid)
+                return BadRequest(
+                    string.Join(
+                        ", ",
+                        ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
+                    )
+                );
+            var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
+            var updatedBooking = await _bookingService.UpdateAsync(bookingDTO);
+
+            if (updatedBooking == null)
+                return BadRequest();
+            return Ok(updatedBooking);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            throw new NotImplementedException("This method is not implemented yet.");
+            var isBookingDeleted = await _bookingService.DeleteAsync(id);
+            if (!isBookingDeleted)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }
