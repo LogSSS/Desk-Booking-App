@@ -1,0 +1,17 @@
+<img
+  [src]="selectedImage"
+  [alt]="selectedAlt"
+  class="w-full h-auto object-cover rounded-lg mb-3"
+/>
+
+<div class="flex flex-wrap gap-2">
+  <img
+    *ngFor="let img of images"
+    [src]="img.src"
+    [alt]="img.alt || ''"
+    class="w-20 h-14 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-blue-500"
+    [class.border-blue-500]="selectedImage === img.src"
+    [class.border-transparent]="selectedImage !== img.src"
+    (click)="selectImage(img.src, img.alt)"
+  />
+</div>

@@ -1,0 +1,370 @@
+<div class="space-y-6 p-6 bg-gray-50 min-h-screen">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">Available Workspaces</h1>
+  </div>
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <div class="flex flex-col md:flex-row gap-6">
+      <div class="md:w-2/5 mb-6 md:mb-0">
+        <app-carousel [images]="carousel1"></app-carousel>
+      </div>
+      <div class="md:w-3/5">
+        <div
+          class="flex flex-col items-start md:flex-row md:justify-between md:items-center mb-4"
+        >
+          <h2 class="text-2xl font-bold text-gray-900">Open space</h2>
+          <button
+            class="bg-blue-600 text-white my-3 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 whitespace-nowrap shadow-md hover:shadow-lg transition-shadow"
+          >
+            Book now
+          </button>
+        </div>
+
+        <div class="mb-6">
+          <p class="text-gray-600 text-sm">
+            A vibrant shared area perfect for freelancers or small teams who
+            enjoy a collaborative atmosphere. Choose any available desk and get
+            to work with flexibility and ease.
+          </p>
+        </div>
+        <div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800 mb-2">
+                Amenities
+              </h3>
+              <div class="flex space-x-2">
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M8 16C8 16.7956 7.68393 17.5587 7.12132 18.1213C6.55871 18.6839 5.79565 19 5 19M16 16C16 16.7956 16.3161 17.5587 16.8787 18.1213C17.4413 18.6839 18.2044 19 19 19M12 16V20M7 13V10C7 9.73478 7.10536 9.48043 7.29289 9.29289C7.48043 9.10536 7.73478 9 8 9H16C16.2652 9 16.5196 9.10536 16.7071 9.29289C16.8946 9.48043 17 9.73478 17 10V13M3 7C3 6.46957 3.21071 5.96086 3.58579 5.58579C3.96086 5.21071 4.46957 5 5 5H19C19.5304 5 20.0391 5.21071 20.4142 5.58579C20.7893 5.96086 21 6.46957 21 7V11C21 11.5304 20.7893 12.0391 20.4142 12.4142C20.0391 12.7893 19.5304 13 19 13H5C4.46957 13 3.96086 12.7893 3.58579 12.4142C3.21071 12.0391 3 11.5304 3 11V7Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M14 15L18.07 19.284C18.4128 19.6447 18.8632 19.8845 19.3538 19.9674C19.8444 20.0503 20.3487 19.9719 20.7909 19.744C21.2332 19.516 21.5896 19.1508 21.8067 18.7031C22.0238 18.2554 22.0899 17.7494 21.995 17.261L20.395 9.02901M8 9V11M7 10H9M14 10H16M15.5 5C16.8261 5 18.0978 5.52678 19.0355 6.46447C19.9732 7.40215 20.5 8.67392 20.5 10C20.5 11.3261 19.9732 12.5979 19.0355 13.5355C18.0978 14.4732 16.8261 15 15.5 15H10L5.985 19.227C5.64156 19.5886 5.1899 19.8288 4.69808 19.9113C4.20626 19.9939 3.70094 19.9143 3.25826 19.6847C2.81558 19.4551 2.45952 19.0878 2.24376 18.6382C2.02799 18.1886 1.9642 17.681 2.062 17.192L3.696 9.019C3.92281 7.88546 4.53539 6.86553 5.42949 6.13278C6.3236 5.40003 7.44399 4.99973 8.6 5H15.5Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M12 18.0002H12.01M9.172 15.1722C9.92211 14.4224 10.9393 14.0011 12 14.0011C13.0607 14.0011 14.0779 14.4224 14.828 15.1722M6.34299 12.3432C7.08586 11.6003 7.96779 11.011 8.93842 10.6089C9.90906 10.2069 10.9494 9.99994 12 9.99994C13.0506 9.99994 14.0909 10.2069 15.0616 10.6089C16.0322 11.011 16.9141 11.6003 17.657 12.3432M3.51501 9.51525C8.20101 4.82825 15.799 4.82825 20.515 9.51525"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M3 14C3.83 14.642 5.077 15.017 6.5 15C7.923 15.017 9.17 14.642 10 14C10.83 13.358 12.077 12.983 13.5 13C14.923 12.983 16.17 13.358 17 14M7.99998 3C7.68348 3.22717 7.42705 3.52797 7.25283 3.87642C7.0786 4.22488 6.99182 4.6105 6.99998 5C6.99182 5.3895 7.0786 5.77512 7.25283 6.12358C7.42705 6.47203 7.68348 6.77283 7.99998 7M12 3C11.6835 3.22717 11.4271 3.52797 11.2528 3.87642C11.0786 4.22488 10.9918 4.6105 11 5C10.9918 5.3895 11.0786 5.77512 11.2528 6.12358C11.4271 6.47203 11.6835 6.77283 12 7M16.746 16.726C17.1926 16.931 17.6827 17.0232 18.1733 16.9944C18.6638 16.9656 19.1398 16.8168 19.5594 16.561C19.9789 16.3051 20.3292 15.9502 20.5795 15.5273C20.8297 15.1043 20.9722 14.6264 20.9945 14.1355C21.0168 13.6446 20.9181 13.1558 20.7072 12.7119C20.4963 12.2681 20.1796 11.8828 19.7849 11.5901C19.3902 11.2973 18.9296 11.106 18.4437 11.0329C17.9578 10.9598 17.4613 11.0073 16.998 11.171M3 10H17V15C17 16.5913 16.3679 18.1174 15.2426 19.2426C14.1174 20.3679 12.5913 21 11 21H9C7.4087 21 5.88258 20.3679 4.75736 19.2426C3.63214 18.1174 3 16.5913 3 15V10Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800 mb-2">
+                Availability
+              </h3>
+              <div class="flex items-center">
+                <div
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9 mr-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M5 11C5.53043 11 6.03914 11.2107 6.41421 11.5858C6.78929 11.9609 7 12.4696 7 13V15H17V13C17 12.4696 17.2107 11.9609 17.5858 11.5858C17.9609 11.2107 18.4696 11 19 11M5 11C4.46957 11 3.96086 11.2107 3.58579 11.5858C3.21071 11.9609 3 12.4696 3 13V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V13C21 12.4696 20.7893 11.9609 20.4142 11.5858C20.0391 11.2107 19.5304 11 19 11M5 11V6C5 5.20435 5.31607 4.44129 5.87868 3.87868C6.44129 3.31607 7.20435 3 8 3H16C16.7956 3 17.5587 3.31607 18.1213 3.87868C18.6839 4.44129 19 5.20435 19 6V11M6 19V21M18 19V21"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="font-semibold text-gray-900">24 desks</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <div class="flex flex-col md:flex-row md:space-x-8">
+      <div class="md:w-2/5 mb-6 md:mb-0">
+        <img
+          src="https://i.imgur.com/Y1M8E1e.png"
+          alt="Private room main"
+          class="w-full h-auto object-cover rounded-lg mb-3"
+        />
+        <div class="flex flex-wrap gap-2">
+          <img
+            src="https://i.imgur.com/xY8L9q8.png"
+            alt="Thumbnail 1"
+            class="w-20 h-14 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-blue-500"
+          />
+          <img
+            src="https://i.imgur.com/LzF0Q8w.png"
+            alt="Thumbnail 2"
+            class="w-20 h-14 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-blue-500"
+          />
+          <img
+            src="https://i.imgur.com/5eK0A0Y.png"
+            alt="Thumbnail 3"
+            class="w-20 h-14 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-blue-500"
+          />
+          <img
+            src="https://i.imgur.com/pQjO4tS.png"
+            alt="Thumbnail 4"
+            class="w-20 h-14 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-blue-500"
+          />
+        </div>
+      </div>
+
+      <div class="md:w-3/5">
+        <div
+          class="flex flex-col items-start md:flex-row md:justify-between md:items-center mb-4"
+        >
+          <h2 class="text-2xl font-bold text-gray-900">Private rooms</h2>
+          <button
+            class="bg-blue-600 text-white my-3 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 whitespace-nowrap shadow-md hover:shadow-lg transition-shadow"
+          >
+            Book now
+          </button>
+        </div>
+
+        <div class="mb-6">
+          <p class="text-gray-600 text-sm">
+            Ideal for focused work, video calls, or small team huddles. These
+            fully enclosed rooms offer privacy and come in a variety of sizes to
+            fit your needs.
+          </p>
+        </div>
+        <div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800 mb-2">
+                Amenities
+              </h3>
+              <div class="flex space-x-2">
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M12 18.0002H12.01M9.172 15.1722C9.92211 14.4224 10.9393 14.0011 12 14.0011C13.0607 14.0011 14.0779 14.4224 14.828 15.1722M6.34299 12.3432C7.08586 11.6003 7.96779 11.011 8.93842 10.6089C9.90906 10.2069 10.9494 9.99994 12 9.99994C13.0506 9.99994 14.0909 10.2069 15.0616 10.6089C16.0322 11.011 16.9141 11.6003 17.657 12.3432M3.51501 9.51525C8.20101 4.82825 15.799 4.82825 20.515 9.51525"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M8 16C8 16.7956 7.68393 17.5587 7.12132 18.1213C6.55871 18.6839 5.79565 19 5 19M16 16C16 16.7956 16.3161 17.5587 16.8787 18.1213C17.4413 18.6839 18.2044 19 19 19M12 16V20M7 13V10C7 9.73478 7.10536 9.48043 7.29289 9.29289C7.48043 9.10536 7.73478 9 8 9H16C16.2652 9 16.5196 9.10536 16.7071 9.29289C16.8946 9.48043 17 9.73478 17 10V13M3 7C3 6.46957 3.21071 5.96086 3.58579 5.58579C3.96086 5.21071 4.46957 5 5 5H19C19.5304 5 20.0391 5.21071 20.4142 5.58579C20.7893 5.96086 21 6.46957 21 7V11C21 11.5304 20.7893 12.0391 20.4142 12.4142C20.0391 12.7893 19.5304 13 19 13H5C4.46957 13 3.96086 12.7893 3.58579 12.4142C3.21071 12.0391 3 11.5304 3 11V7Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M4 15C4 14.4696 4.21071 13.9609 4.58579 13.5858C4.96086 13.2107 5.46957 13 6 13H7C7.53043 13 8.03914 13.2107 8.41421 13.5858C8.78929 13.9609 9 14.4696 9 15V18C9 18.5304 8.78929 19.0391 8.41421 19.4142C8.03914 19.7893 7.53043 20 7 20H6C5.46957 20 4.96086 19.7893 4.58579 19.4142C4.21071 19.0391 4 18.5304 4 18V15ZM4 15V12C4 9.87827 4.84285 7.84344 6.34315 6.34315C7.84344 4.84285 9.87827 4 12 4C14.1217 4 16.1566 4.84285 17.6569 6.34315C19.1571 7.84344 20 9.87827 20 12V15M20 15C20 14.4696 19.7893 13.9609 19.4142 13.5858C19.0391 13.2107 18.5304 13 18 13H17C16.4696 13 15.9609 13.2107 15.5858 13.5858C15.2107 13.9609 15 14.4696 15 15V18C15 18.5304 15.2107 19.0391 15.5858 19.4142C15.9609 19.7893 16.4696 20 17 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V15Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800 mb-2">
+                Capacity options
+              </h3>
+              <div class="flex items-center">
+                <div
+                  class="bg-blue-100 text-blue-600 p-2 rounded-lg flex items-center justify-center w-9 h-9 mr-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      xmlns="http://www.w3.org/2000/svg"
+                      d="M6 21V19C6 17.9391 6.42143 16.9217 7.17157 16.1716C7.92172 15.4214 8.93913 15 10 15H14C15.0609 15 16.0783 15.4214 16.8284 16.1716C17.5786 16.9217 18 17.9391 18 19V21M8 7C8 8.06087 8.42143 9.07828 9.17157 9.82843C9.92172 10.5786 10.9391 11 12 11C13.0609 11 14.0783 10.5786 14.8284 9.82843C15.5786 9.07828 16 8.06087 16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7Z"
+                      stroke="#5C5AF3"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="font-semibold text-gray-900">
+                  1, 2, 5, 10 people
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="text-sm font-semibold text-gray-800 mb-2">
+              Availability
+            </h3>
+            <div class="space-y-1 text-sm text-gray-700">
+              <p>
+                <strong class="font-semibold text-gray-900">7 rooms</strong> for
+                1 person
+              </p>
+              <p>
+                <strong class="font-semibold text-gray-900">4 rooms</strong> for
+                up to 2 people
+              </p>
+              <p>
+                <strong class="font-semibold text-gray-900">3 rooms</strong> for
+                up to 5 people
+              </p>
+              <p>
+                <strong class="font-semibold text-gray-900">1 room</strong> for
+                up to 10 people
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-green-50 text-green-700 p-3 rounded-lg flex items-center text-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-green-600 mr-2 flex-shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <circle
+              xmlns="http://www.w3.org/2000/svg"
+              cx="12"
+              cy="12"
+              r="12"
+              fill="#73C189"
+            />
+            <path
+              xmlns="http://www.w3.org/2000/svg"
+              d="M8.84961 12L11.0996 14.25L15.5996 9.75"
+              stroke="white"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span
+            >This workspace is already booked by you! Room for 2 people
+            <strong class="font-semibold text-green-800"
+              >May 18, 2025 to May 23, 2025</strong
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
