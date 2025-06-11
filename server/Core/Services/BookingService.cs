@@ -25,12 +25,15 @@ namespace Core.Services
 
         public async Task<BookingDTO> CreateAsync(BookingDTO booking)
         {
+            //check if availability of the booking (check time)
             return await _bookingRepository.CreateAsync(booking);
         }
 
-        public async Task<BookingDTO?> UpdateAsync(BookingDTO booking)
+        public async Task<BookingDTO?> UpdateAsync(int id, BookingDTO booking)
         {
-            return await _bookingRepository.UpdateAsync(booking);
+            //check if availability of the booking (check time)
+            var updatedBooking = await _bookingRepository.GetByIdAsync(id);
+            return updatedBooking;
         }
 
         public async Task<bool> DeleteAsync(int id)

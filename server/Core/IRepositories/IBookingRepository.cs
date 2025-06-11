@@ -7,7 +7,7 @@ namespace Core.IRepositories
         Task<BookingDTO?> GetByIdAsync(int id);
         Task<List<BookingDTO>> GetAllAsync();
         Task<BookingDTO> CreateAsync(BookingDTO booking);
-        Task<BookingDTO?> UpdateAsync(BookingDTO booking);
+        Task<BookingDTO?> UpdateAsync(int id, BookingDTO booking);
         Task<bool> DeleteAsync(int id);
     }
 }

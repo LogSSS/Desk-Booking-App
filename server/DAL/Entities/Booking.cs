@@ -17,11 +17,11 @@ namespace DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public int OwnerId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
-
-        public Workspace WorkspaceType { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -31,9 +31,9 @@ namespace DAL.Entities
 
         public Status Status { get; set; }
 
-        public int BookingsListId { get; set; }
+        public int WorkspaceId { get; set; }
 
-        [ForeignKey("BookingsListId")]
-        public BookingsList BookingsList { get; set; }
+        [ForeignKey("WorkspaceId")]
+        public Workspace? Workspace { get; set; }
     }
 }

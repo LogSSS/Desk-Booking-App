@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
-    [Table("BookingsList")]
-    public class BookingsList
+    [Table("Amenities")]
+    public class Amenity
     {
-        public BookingsList()
-        {
-            Name = string.Empty;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public int IconId { get; set; }
+
+        public int WorkspaceId { get; set; }
+
+        [ForeignKey("WorkspaceId")]
+        public Workspace? Workspace { get; set; }
     }
 }

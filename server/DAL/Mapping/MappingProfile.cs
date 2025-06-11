@@ -9,19 +9,19 @@ namespace DAL.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Booking, BookingDTO>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+            CreateMap<Booking, BookingDTO>();
+
+            CreateMap<Amenity, AmenityDTO>();
+            CreateMap<Capacity, CapacityDTO>();
+            CreateMap<RoomAvailability, RoomAvailabilityDTO>();
+
+            CreateMap<Workspace, WorkspaceDTO>()
+                .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities))
                 .ForMember(
-                    dest => dest.WorkspaceType,
-                    opt => opt.MapFrom(src => (int)src.WorkspaceType)
+                    dest => dest.CapacityOptions,
+                    opt => opt.MapFrom(src => src.CapacityOptions)
                 )
-                .ReverseMap()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (Status)src.Status))
-                .ForMember(
-                    dest => dest.WorkspaceType,
-                    opt => opt.MapFrom(src => (Workspace)src.WorkspaceType)
-                );
-            CreateMap<BookingsList, BookingsListDTO>().ReverseMap();
+                .ForMember(dest => dest.Booked, opt => opt.MapFrom(src => src.Booked));
         }
     }
 }

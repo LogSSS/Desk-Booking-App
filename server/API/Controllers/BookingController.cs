@@ -53,10 +53,14 @@ namespace API.Controllers
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             var createdBooking = await _bookingService.CreateAsync(bookingDTO);
 
-            return Ok(createdBooking);
+            return CreatedAtAction(
+                nameof(GetByIdAsync),
+                new { id = createdBooking.Id },
+                createdBooking
+            );
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
             [FromBody] UpsertBookingRequest upsertBookingRequest
@@ -70,11 +74,9 @@ namespace API.Controllers
                     )
                 );
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
-            var updatedBooking = await _bookingService.UpdateAsync(bookingDTO);
+            await _bookingService.UpdateAsync(id, bookingDTO);
 
-            if (updatedBooking == null)
-                return BadRequest();
-            return Ok(updatedBooking);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
