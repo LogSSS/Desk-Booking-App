@@ -34,6 +34,9 @@ namespace API
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IBookingRepository, BookingRepository>();
 
+            services.AddScoped<IWorkspaceService, WorkspaceService>();
+            services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });

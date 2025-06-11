@@ -1,10 +1,9 @@
 namespace Shared.Enums
 {
-    public enum Workspace
+    public enum WorkspaceType
     {
-        None = 0,
-        OpenSpace = 1,
-        PrivateRooms = 2,
-        MeetingRooms = 3,
+        OpenSpace = 0,
+        PrivateRooms = 1,
+        MeetingRooms = 2,
     }
 }

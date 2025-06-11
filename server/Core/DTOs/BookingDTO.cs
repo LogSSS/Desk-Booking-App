@@ -10,6 +10,8 @@ namespace Core.DTOs
 
         public int Id { get; set; }
 
+        public int OwnerId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -22,6 +24,6 @@ namespace Core.DTOs
 
         public DateTime EndDate { get; set; }
 
-        public int BookingsListId { get; set; }
+        public int WorkspaceId { get; set; }
     }
 }

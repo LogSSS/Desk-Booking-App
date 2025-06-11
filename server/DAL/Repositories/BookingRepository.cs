@@ -44,9 +44,9 @@ namespace DAL.Repositories
             return _mapper.Map<BookingDTO>(bookingEntity);
         }
 
-        public async Task<BookingDTO?> UpdateAsync(BookingDTO booking)
+        public async Task<BookingDTO?> UpdateAsync(int id, BookingDTO booking)
         {
-            var existingEntity = await _context.Bookings.FindAsync(booking.Id);
+            var existingEntity = await _context.Bookings.FindAsync(id);
             if (existingEntity == null)
                 return null;
 
@@ -62,7 +62,7 @@ namespace DAL.Repositories
             if (bookingEntity == null)
                 return false;
 
-            bookingEntity.Status = (int)Status.Deleted;
+            bookingEntity.Status = Status.Deleted;
             _context.Bookings.Update(bookingEntity);
             await _context.SaveChangesAsync();
             return true;
