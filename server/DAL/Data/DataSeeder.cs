@@ -211,6 +211,20 @@ namespace DAL.Data
                         CapacityId = -2,
                         MaxPeople = 10,
                         AvailableRooms = 1,
+                    },
+                    new RoomAvailability
+                    {
+                        Id = -6,
+                        CapacityId = -3,
+                        MaxPeople = 10,
+                        AvailableRooms = 4,
+                    },
+                    new RoomAvailability
+                    {
+                        Id = -7,
+                        CapacityId = -3,
+                        MaxPeople = 20,
+                        AvailableRooms = 1,
                     }
                 );
 

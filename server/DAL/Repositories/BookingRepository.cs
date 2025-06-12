@@ -22,7 +22,12 @@ namespace DAL.Repositories
 
         public async Task<BookingDTO?> GetByIdAsync(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _context
+                .Bookings.Include(b => b.Workspace)
+                .ThenInclude(b => b.CapacityOptions)
+                .ThenInclude(b => b.RoomAvailabilities)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (booking == null)
                 return null;
 
@@ -31,7 +36,10 @@ namespace DAL.Repositories
 
         public async Task<List<BookingDTO>> GetAllAsync()
         {
-            var bookings = await _context.Bookings.ToListAsync();
+            var bookings = await _context
+                .Bookings.Include(b => b.Workspace)
+                .ThenInclude(b => b.Images)
+                .ToListAsync();
             return _mapper.Map<List<BookingDTO>>(bookings);
         }
 

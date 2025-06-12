@@ -2,14 +2,11 @@ using Shared.Enums;
 
 namespace Core.DTOs
 {
-    public class WorkspaceDTO
+    public class BaseWorkspaceDTO
     {
-        public WorkspaceDTO()
+        public BaseWorkspaceDTO()
         {
             Name = string.Empty;
-            Description = string.Empty;
-            Amenities = [];
-            CapacityOptions = [];
             Images = [];
         }
 
@@ -19,6 +16,18 @@ namespace Core.DTOs
 
         public WorkspaceType Type { get; set; }
 
+        public IList<MyImageDTO> Images { get; set; }
+    }
+
+    public class WorkspaceDTO : BaseWorkspaceDTO
+    {
+        public WorkspaceDTO()
+        {
+            Amenities = [];
+            CapacityOptions = [];
+            Description = string.Empty;
+        }
+
         public string Description { get; set; }
 
         public IList<AmenityDTO> Amenities { get; set; }
@@ -26,7 +35,5 @@ namespace Core.DTOs
         public IList<CapacityDTO> CapacityOptions { get; set; }
 
         public BookingDTO? Booked { get; set; }
-
-        public IList<MyImage> Images { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Core.DTOs
 
         public string Email { get; set; }
 
-        public WorkspaceDTO? Workspace { get; set; }
+        public BaseWorkspaceDTO? Workspace { get; set; }
 
         public int Status { get; set; }
 
