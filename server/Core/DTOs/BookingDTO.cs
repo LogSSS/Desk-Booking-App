@@ -16,7 +16,7 @@ namespace Core.DTOs
 
         public string Email { get; set; }
 
-        public int WorkspaceType { get; set; }
+        public WorkspaceDTO? Workspace { get; set; }
 
         public int Status { get; set; }
 
@@ -25,5 +25,7 @@ namespace Core.DTOs
         public DateTime EndDate { get; set; }
 
         public int WorkspaceId { get; set; }
+
+        public int RoomSize { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Core.DTOs
             Description = string.Empty;
             Amenities = [];
             CapacityOptions = [];
+            Images = [];
         }
 
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace Core.DTOs
         public IList<CapacityDTO> CapacityOptions { get; set; }
 
         public BookingDTO? Booked { get; set; }
+
+        public IList<MyImage> Images { get; set; }
     }
 }

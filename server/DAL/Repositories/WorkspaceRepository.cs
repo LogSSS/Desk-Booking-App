@@ -27,6 +27,7 @@ namespace DAL.Repositories
 
             var workspaces = await _context
                 .Workspaces.Include(w => w.Amenities)
+                .Include(w => w.Images)
                 .Include(w => w.CapacityOptions)
                 .ThenInclude(co => co.RoomAvailabilities)
                 .Select(w => new

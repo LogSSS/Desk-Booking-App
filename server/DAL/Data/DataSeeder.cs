@@ -31,6 +31,7 @@ namespace DAL.Data
                             DateTimeKind.Utc
                         ),
                         Status = Status.Active,
+                        RoomSize = 0,
                     },
                     new Booking
                     {
@@ -52,6 +53,7 @@ namespace DAL.Data
                             DateTimeKind.Utc
                         ),
                         Status = Status.Active,
+                        RoomSize = 1,
                     }
                 );
 
@@ -209,6 +211,83 @@ namespace DAL.Data
                         CapacityId = -2,
                         MaxPeople = 10,
                         AvailableRooms = 1,
+                    }
+                );
+
+            modelBuilder
+                .Entity<MyImage>()
+                .HasData(
+                    new MyImage
+                    {
+                        Id = -1,
+                        Link = 1,
+                        WorkspaceId = -1,
+                    },
+                    new MyImage
+                    {
+                        Id = -2,
+                        Link = 2,
+                        WorkspaceId = -1,
+                    },
+                    new MyImage
+                    {
+                        Id = -3,
+                        Link = 3,
+                        WorkspaceId = -1,
+                    },
+                    new MyImage
+                    {
+                        Id = -4,
+                        Link = 4,
+                        WorkspaceId = -1,
+                    },
+                    new MyImage
+                    {
+                        Id = -5,
+                        Link = 5,
+                        WorkspaceId = -2,
+                    },
+                    new MyImage
+                    {
+                        Id = -6,
+                        Link = 6,
+                        WorkspaceId = -2,
+                    },
+                    new MyImage
+                    {
+                        Id = -7,
+                        Link = 7,
+                        WorkspaceId = -2,
+                    },
+                    new MyImage
+                    {
+                        Id = -8,
+                        Link = 8,
+                        WorkspaceId = -2,
+                    },
+                    new MyImage
+                    {
+                        Id = -9,
+                        Link = 9,
+                        WorkspaceId = -3,
+                    },
+                    new MyImage
+                    {
+                        Id = -10,
+                        Link = 10,
+                        WorkspaceId = -3,
+                    },
+                    new MyImage
+                    {
+                        Id = -11,
+                        Link = 11,
+                        WorkspaceId = -3,
+                    },
+                    new MyImage
+                    {
+                        Id = -12,
+                        Link = 12,
+                        WorkspaceId = -3,
                     }
                 );
         }

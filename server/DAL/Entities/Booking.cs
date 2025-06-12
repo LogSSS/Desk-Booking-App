@@ -31,6 +31,8 @@ namespace DAL.Entities
 
         public Status Status { get; set; }
 
+        public int RoomSize { get; set; }
+
         public int WorkspaceId { get; set; }
 
         [ForeignKey("WorkspaceId")]
