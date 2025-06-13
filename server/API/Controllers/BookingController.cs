@@ -53,6 +53,8 @@ namespace API.Controllers
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             var createdBooking = await _bookingService.CreateAsync(bookingDTO);
 
+            if (createdBooking == null)
+                return BadRequest("Booking is not available for the specified dates.");
             return Ok(createdBooking);
         }
 
@@ -74,7 +76,7 @@ namespace API.Controllers
             var booking = await _bookingService.UpdateAsync(id, bookingDTO);
 
             if (booking == null)
-                return NotFound();
+                return BadRequest("Booking is not available for the specified dates.");
 
             return NoContent();
         }

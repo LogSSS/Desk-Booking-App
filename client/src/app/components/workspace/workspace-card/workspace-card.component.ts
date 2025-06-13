@@ -37,10 +37,20 @@ export class WorkspaceCardComponent implements OnInit {
 
   onModalClose(didSave: boolean): void {
     this.isBookingModalOpen = false;
-    if (didSave) {
-      // Optionally, you can show a success message or refresh data here
-      console.log('Booking was successfully created!');
+  }
+
+  get isSingleDayBooking(): boolean {
+    if (!this.workspace.booked) {
+      return false;
     }
+    const startDate = new Date(this.workspace.booked.startDate);
+    const endDate = new Date(this.workspace.booked.endDate);
+
+    return (
+      startDate.getFullYear() === endDate.getFullYear() &&
+      startDate.getMonth() === endDate.getMonth() &&
+      startDate.getDate() === endDate.getDate()
+    );
   }
 
   get isSingleAvailability(): boolean {

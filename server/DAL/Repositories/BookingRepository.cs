@@ -84,8 +84,6 @@ namespace DAL.Repositories
 
         public async Task<bool> IsBookingAvailable(BookingDTO booking)
         {
-            Console.WriteLine(booking.Id);
-
             var existingBookings = await _context
                 .Bookings.Where(b =>
                     b.WorkspaceId == booking.WorkspaceId
@@ -96,12 +94,9 @@ namespace DAL.Repositories
                 .ToListAsync();
 
             foreach (var existing in existingBookings)
-            {
-                Console.WriteLine(existing.Id);
-
                 if (booking.StartDate < existing.EndDate && booking.EndDate > existing.StartDate)
                     return false;
-            }
+
             return true;
         }
     }

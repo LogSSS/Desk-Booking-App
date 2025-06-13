@@ -9,7 +9,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -25,12 +25,11 @@ import {
 import { Workspace } from '../../models/workspace.model';
 import { BookingService } from '../../services/booking.service';
 import { Subscription, combineLatest, startWith } from 'rxjs';
-import { error } from 'console';
 
 @Component({
   selector: 'app-booking-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatePipe],
   templateUrl: './booking-modal.component.html',
 })
 export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
@@ -205,10 +204,23 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       .valueChanges.pipe(
         startWith(this.bookingForm.get('workspaceType')!.value)
       );
+
     this.subscriptions.add(
       workspaceType$.subscribe((type) => {
         if (type == null) return;
         const workspaceType = Number(type);
+        const endDay = this.bookingForm.get('endDay');
+        const endMonth = this.bookingForm.get('endMonth');
+        const endYear = this.bookingForm.get('endYear');
+        if (workspaceType === WorkspaceType.MeetingRoom) {
+          endDay?.disable();
+          endMonth?.disable();
+          endYear?.disable();
+        } else {
+          endDay?.enable();
+          endMonth?.enable();
+          endYear?.enable();
+        }
         this.updateRoomSizeValidators(workspaceType);
 
         const roomSizeControl = this.bookingForm.get('roomSize');
@@ -257,6 +269,30 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
         if (month != null && year != null)
           this.updateDaysForDate('end', year, Number(month));
       })
+    );
+
+    const startDay$ = this.bookingForm
+      .get('startDay')!
+      .valueChanges.pipe(startWith(this.bookingForm.get('startDay')!.value));
+    this.subscriptions.add(
+      combineLatest([startDay$, startMonth$, startYear$]).subscribe(
+        ([day, month, year]) => {
+          const isMeetingRoom =
+            this.bookingForm.get('workspaceType')?.value ==
+            WorkspaceType.MeetingRoom;
+
+          if (isMeetingRoom) {
+            this.bookingForm.patchValue(
+              {
+                endDay: day,
+                endMonth: month,
+                endYear: year,
+              },
+              { emitEvent: false }
+            );
+          }
+        }
+      )
     );
   }
 
@@ -319,9 +355,7 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     const payload: UpsertBooking = {
       name: formVal.name,
       email: formVal.email,
-
       workspaceId: workspaceType + 1,
-
       roomSize:
         workspaceType === WorkspaceType.OpenSpace
           ? 0
@@ -341,7 +375,13 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     if (this.isEditMode) {
       this.bookingService.updateBooking(this.booking!.id, payload).subscribe({
         next: () => this.close.emit(true),
-        error: errorHandler,
+        error: (err) => {
+          if (err.status === 400) {
+            this.showErrorState = true;
+            this.showSuccessState = false;
+            this.cdr.detectChanges();
+          }
+        },
       });
     } else {
       this.bookingService.createBooking(payload).subscribe({
@@ -356,26 +396,27 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
           this.showSuccessState = true;
           this.cdr.detectChanges();
         },
-        error: errorHandler,
+        error: (err) => {
+          if (err.status === 400) {
+            this.showErrorState = true;
+            this.showSuccessState = false;
+            this.cdr.detectChanges();
+          }
+        },
       });
     }
   }
 
   closeErrorModal(): void {
     this.showErrorState = false;
+    this.bookingForm.markAsUntouched();
+    this.bookingForm.markAsPristine();
   }
 
   navigateToMyBookings(): void {
     this.closeModal();
     this.router.navigate(['/my']);
   }
-
-  cancel(): void {
-    this.showSuccessState = false;
-    this.successDetails = null;
-    this.close.emit(false);
-  }
-
   closeModal(): void {
     this.showSuccessState = false;
     this.showErrorState = false;
