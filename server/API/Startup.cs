@@ -34,9 +34,20 @@ namespace API
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IBookingRepository, BookingRepository>();
 
+            services.AddScoped<IWorkspaceService, WorkspaceService>();
+            services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                );
             });
         }
 
@@ -49,7 +60,6 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -67,6 +77,9 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCors("AllowAllOrigins");
+
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

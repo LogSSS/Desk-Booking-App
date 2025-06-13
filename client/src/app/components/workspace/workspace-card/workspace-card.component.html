@@ -1,0 +1,171 @@
+<div>
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden my-3 p-6 md:p-8">
+    <div class="flex flex-col lg:flex-row lg:gap-8">
+      <div class="w-full lg:w-2/5 flex-shrink-0">
+        <div class="aspect-w-4 aspect-h-3">
+          <img
+            *ngIf="currentImage"
+            [src]="currentImage.link"
+            [alt]="workspace.name"
+            class="w-full h-full object-cover rounded-xl"
+          />
+        </div>
+
+        <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-4">
+          <button
+            *ngFor="let image of workspace.images"
+            (click)="selectImage(image)"
+            class="aspect-square rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+            [class.ring-2]="image.id === currentImage?.id"
+            [class.ring-indigo-500]="image.id === currentImage?.id"
+            [class.ring-transparent]="image.id !== currentImage?.id"
+          >
+            <img
+              [src]="image.link"
+              [alt]="'Thumbnail of ' + workspace.name"
+              class="w-full h-full object-cover"
+              [class.opacity-50]="image.id !== currentImage?.id"
+            />
+          </button>
+        </div>
+      </div>
+
+      <div class="w-full lg:w-3/5 mt-6 lg:mt-0">
+        <div class="flex justify-between items-start">
+          <h2 class="text-3xl font-bold text-gray-900">{{ workspace.name }}</h2>
+          <button
+            (click)="openBookingModal()"
+            class="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors flex-shrink-0 ml-4"
+          >
+            Book now
+          </button>
+        </div>
+        <p class="mt-2 text-gray-600">{{ workspace.description }}</p>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3 class="font-bold text-gray-800 mb-2">Amenities</h3>
+            <div class="flex flex-wrap gap-3">
+              <div
+                *ngFor="let amenity of workspace.amenities"
+                class="bg-gray-100 p-2 rounded-lg flex items-center justify-center w-10 h-10"
+                [title]="amenity.iconContent"
+              >
+                <img [src]="amenity.iconContent" alt="F" class="w-6 h-6" />
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isSingleAvailability">
+            <h3 class="font-bold text-gray-800 mb-2">Availability</h3>
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-gray-100 p-2 rounded-lg flex items-center justify-center w-10 h-10"
+              >
+                <img
+                  src="https://res.cloudinary.com/darmngqvc/image/upload/v1749785445/armchair_ueemmp.svg"
+                  alt="Desk Icon"
+                  class="w-6 h-6"
+                />
+              </div>
+              <span class="text-gray-700"
+                >{{ singleAvailabilityCount }} desks</span
+              >
+            </div>
+          </div>
+
+          <div *ngIf="!isSingleAvailability" class="space-y-6">
+            <div>
+              <h3 class="font-bold text-gray-800 mb-2">Capacity options</h3>
+              <div class="flex items-center gap-3">
+                <div
+                  class="bg-gray-100 p-2 rounded-lg flex items-center justify-center w-10 h-10"
+                >
+                  <img
+                    src="https://res.cloudinary.com/darmngqvc/image/upload/v1749785386/user_k4bfze.svg"
+                    alt="Placeholder Icon"
+                    class="w-6 h-6"
+                  />
+                </div>
+                <span class="text-gray-700"
+                  >{{ capacityOptionsText }} people</span
+                >
+              </div>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800 mb-2">Availability</h3>
+              <ul class="space-y-1 text-gray-700">
+                <li *ngFor="let room of roomAvailabilities">
+                  <span class="font-semibold">{{ room.availableRooms }}</span>
+                  room<span *ngIf="room.availableRooms > 1">s</span> for
+                  <span *ngIf="workspace.type === 1">
+                    {{ room.maxPeople }} person<span *ngIf="room.maxPeople > 1"
+                      >s</span
+                    >
+                  </span>
+                  <span *ngIf="workspace.type === 2">
+                    up to {{ room.maxPeople }} people
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="workspace.booked"
+      class="mt-8 p-3 rounded-lg bg-green-50 flex items-center gap-x-3"
+    >
+      <div
+        class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+      <p class="text-gray-900 text-sm">
+        This workspace is already booked by you!
+
+        <ng-container *ngIf="workspace.booked.roomSize > 0; else deskInfo">
+          Room for {{ workspace.booked.roomSize }} people
+        </ng-container>
+        <ng-template #deskInfo> Desk for you </ng-template>
+
+        <ng-container *ngIf="isSingleDayBooking; else dateRangeInfo">
+          on
+          <span class="font-bold">{{
+            workspace.booked.startDate | date : "MMMM d, y"
+          }}</span>
+        </ng-container>
+        <ng-template #dateRangeInfo>
+          from
+          <span class="font-bold">{{
+            workspace.booked.startDate | date : "MMMM d, y"
+          }}</span>
+          to
+          <span class="font-bold">{{
+            workspace.booked.endDate | date : "MMMM d, y"
+          }}</span>
+        </ng-template>
+      </p>
+    </div>
+  </div>
+  <app-booking-modal
+    *ngIf="isBookingModalOpen"
+    [workspaceForNewBooking]="workspace"
+    (close)="onModalClose($event)"
+  ></app-booking-modal>
+</div>

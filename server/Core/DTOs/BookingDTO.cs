@@ -10,11 +10,13 @@ namespace Core.DTOs
 
         public int Id { get; set; }
 
+        public int OwnerId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
 
-        public int WorkspaceType { get; set; }
+        public BaseWorkspaceDTO? Workspace { get; set; }
 
         public int Status { get; set; }
 
@@ -22,6 +24,8 @@ namespace Core.DTOs
 
         public DateTime EndDate { get; set; }
 
-        public int BookingsListId { get; set; }
+        public int WorkspaceId { get; set; }
+
+        public int RoomSize { get; set; }
     }
 }

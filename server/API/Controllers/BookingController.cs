@@ -53,10 +53,12 @@ namespace API.Controllers
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             var createdBooking = await _bookingService.CreateAsync(bookingDTO);
 
+            if (createdBooking == null)
+                return BadRequest("Booking is not available for the specified dates.");
             return Ok(createdBooking);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
             [FromBody] UpsertBookingRequest upsertBookingRequest
@@ -69,12 +71,14 @@ namespace API.Controllers
                         ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                     )
                 );
-            var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
-            var updatedBooking = await _bookingService.UpdateAsync(bookingDTO);
 
-            if (updatedBooking == null)
-                return BadRequest();
-            return Ok(updatedBooking);
+            var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
+            var booking = await _bookingService.UpdateAsync(id, bookingDTO);
+
+            if (booking == null)
+                return BadRequest("Booking is not available for the specified dates.");
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

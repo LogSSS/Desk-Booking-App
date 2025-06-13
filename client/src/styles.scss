@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.nav-link {
+  @apply relative transition duration-300 before:transition-transform before:duration-300 before:origin-center before:scale-x-0 before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 before:bg-blue-500 hover:before:scale-x-100;
+}
+
+.active-link {
+  @apply relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full before:bg-blue-500 before:scale-x-100 before:origin-center;
+}

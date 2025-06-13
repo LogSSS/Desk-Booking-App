@@ -1,0 +1,24 @@
+# Ignore build artifacts
+**/[Bb]in/
+**/[Oo]bj/
+
+# Ignore local user settings and development tools
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Ignore local publish folders
+**/publish/
+
+# Ignore git files
+.git/
+.gitignore
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# Ignore local secrets (important!)
+secrets.json
+appsettings.Development.json
