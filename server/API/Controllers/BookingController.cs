@@ -53,11 +53,7 @@ namespace API.Controllers
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             var createdBooking = await _bookingService.CreateAsync(bookingDTO);
 
-            return CreatedAtAction(
-                nameof(GetByIdAsync),
-                new { id = createdBooking.Id },
-                createdBooking
-            );
+            return Ok(createdBooking);
         }
 
         [HttpPatch("{id}")]

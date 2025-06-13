@@ -6,16 +6,20 @@ import {
   Workspace,
 } from '../../../models/workspace.model';
 
+import { BookingModalComponent } from '../../booking-modal/booking-modal.component';
+
 @Component({
   selector: 'app-workspace-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BookingModalComponent],
   templateUrl: './workspace-card.component.html',
 })
 export class WorkspaceCardComponent implements OnInit {
   @Input({ required: true }) workspace!: Workspace;
 
   currentImage: MyImage | undefined;
+
+  isBookingModalOpen = false;
 
   ngOnInit(): void {
     if (this.workspace.images?.length > 0) {
@@ -25,6 +29,18 @@ export class WorkspaceCardComponent implements OnInit {
 
   selectImage(image: MyImage): void {
     this.currentImage = image;
+  }
+
+  openBookingModal(): void {
+    this.isBookingModalOpen = true;
+  }
+
+  onModalClose(didSave: boolean): void {
+    this.isBookingModalOpen = false;
+    if (didSave) {
+      // Optionally, you can show a success message or refresh data here
+      console.log('Booking was successfully created!');
+    }
   }
 
   get isSingleAvailability(): boolean {

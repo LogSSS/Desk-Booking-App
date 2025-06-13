@@ -16,13 +16,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   Booking,
   UpsertBooking,
   WorkspaceType,
 } from '../../models/booking.model';
+import { Workspace } from '../../models/workspace.model';
 import { BookingService } from '../../services/booking.service';
 import { Subscription, combineLatest, startWith } from 'rxjs';
+import { error } from 'console';
 
 @Component({
   selector: 'app-booking-modal',
@@ -31,10 +34,24 @@ import { Subscription, combineLatest, startWith } from 'rxjs';
   templateUrl: './booking-modal.component.html',
 })
 export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
-  @Input({ required: true }) booking!: Booking;
+  @Input() booking?: Booking;
+  @Input() workspaceForNewBooking?: Workspace;
   @Output() close = new EventEmitter<boolean>();
 
   bookingForm!: FormGroup;
+  isEditMode = false;
+  modalTitle = '';
+
+  showSuccessState = false;
+  successDetails: {
+    roomSize: number;
+    startDate: string;
+    endDate: string;
+    email: string;
+    workspaceType: WorkspaceType;
+  } | null = null;
+
+  showErrorState = false;
 
   WorkspaceType = WorkspaceType;
 
@@ -73,26 +90,39 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.resetAndPopulateForm();
+    this.setupModal();
     this.listenToChanges();
-    if (this.booking && this.booking.workspace) {
-      this.updateRoomSizeValidators(this.booking.workspace.type);
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['booking'] && this.bookingForm) {
-      this.resetAndPopulateForm();
+    if (
+      (changes['booking'] || changes['workspaceForNewBooking']) &&
+      this.bookingForm
+    ) {
+      this.setupModal();
     }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private setupModal(): void {
+    this.isEditMode = !!this.booking;
+    if (this.isEditMode) {
+      this.modalTitle = 'Edit your booking';
+      this.populateFormForEdit();
+    } else {
+      this.modalTitle = 'Book a workspace';
+      this.prepareFormForAdd();
+    }
   }
 
   private initForm(): void {
@@ -112,7 +142,7 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  private resetAndPopulateForm(): void {
+  private populateFormForEdit(): void {
     if (!this.booking || !this.booking.workspace) return;
 
     const startDate = new Date(this.booking.startDate);
@@ -132,16 +162,41 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       endYear: endDate.getFullYear(),
       endTime: this.formatTimeForSelect(endDate),
     };
-
     this.bookingForm.reset(formData);
-
+    this.updateRoomSizeValidators(this.booking.workspace.type);
     this.updateDaysForDate(
       'start',
       startDate.getFullYear(),
       startDate.getMonth()
     );
     this.updateDaysForDate('end', endDate.getFullYear(), endDate.getMonth());
-    this.updateRoomSizeValidators(this.booking.workspace.type);
+  }
+
+  private prepareFormForAdd(): void {
+    this.bookingForm.reset();
+
+    if (this.workspaceForNewBooking) {
+      this.bookingForm.patchValue({
+        workspaceType: this.workspaceForNewBooking.type,
+      });
+    }
+
+    const today = new Date();
+    this.bookingForm.patchValue({
+      startYear: today.getFullYear(),
+      startMonth: today.getMonth(),
+      startDay: today.getDate(),
+      endYear: today.getFullYear(),
+      endMonth: today.getMonth(),
+      endDay: today.getDate(),
+    });
+
+    this.updateDaysForDate('start', today.getFullYear(), today.getMonth());
+    this.updateDaysForDate('end', today.getFullYear(), today.getMonth());
+
+    if (this.workspaceForNewBooking) {
+      this.updateRoomSizeValidators(this.workspaceForNewBooking.type);
+    }
   }
 
   private listenToChanges(): void {
@@ -244,7 +299,7 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    const formVal = this.bookingForm.value;
+    const formVal = this.bookingForm.getRawValue();
     const workspaceType = Number(formVal.workspaceType);
 
     const startDate = new Date(
@@ -261,34 +316,70 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       ...this.parseTime(formVal.endTime)
     );
 
-    const updatedBooking: UpsertBooking = {
+    const payload: UpsertBooking = {
       name: formVal.name,
       email: formVal.email,
+
       workspaceId: workspaceType + 1,
+
       roomSize:
         workspaceType === WorkspaceType.OpenSpace
           ? 0
           : Number(formVal.roomSize),
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
-      status: this.booking.status,
-      ownerId: this.booking.ownerId,
+
+      status: this.isEditMode ? this.booking!.status : 1,
+      ownerId: this.isEditMode ? this.booking!.ownerId : -1,
     };
 
-    this.bookingService
-      .updateBooking(this.booking.id, updatedBooking)
-      .subscribe({
-        next: () => {
-          this.close.emit(true);
-        },
-        error: (err) => {
-          alert('Update failed. Please try again.');
-          this.close.emit(false);
-        },
+    const errorHandler = () => {
+      this.showErrorState = true;
+      this.cdr.detectChanges();
+    };
+
+    if (this.isEditMode) {
+      this.bookingService.updateBooking(this.booking!.id, payload).subscribe({
+        next: () => this.close.emit(true),
+        error: errorHandler,
       });
+    } else {
+      this.bookingService.createBooking(payload).subscribe({
+        next: (createdBooking) => {
+          this.successDetails = {
+            roomSize: formVal.roomSize,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            email: formVal.email,
+            workspaceType: workspaceType,
+          };
+          this.showSuccessState = true;
+          this.cdr.detectChanges();
+        },
+        error: errorHandler,
+      });
+    }
+  }
+
+  closeErrorModal(): void {
+    this.showErrorState = false;
+  }
+
+  navigateToMyBookings(): void {
+    this.closeModal();
+    this.router.navigate(['/my']);
   }
 
   cancel(): void {
+    this.showSuccessState = false;
+    this.successDetails = null;
+    this.close.emit(false);
+  }
+
+  closeModal(): void {
+    this.showSuccessState = false;
+    this.showErrorState = false;
+    this.successDetails = null;
     this.close.emit(false);
   }
 

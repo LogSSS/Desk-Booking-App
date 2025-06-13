@@ -81,5 +81,28 @@ namespace DAL.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> IsBookingAvailable(BookingDTO booking)
+        {
+            Console.WriteLine(booking.Id);
+
+            var existingBookings = await _context
+                .Bookings.Where(b =>
+                    b.WorkspaceId == booking.WorkspaceId
+                    && b.RoomSize == booking.RoomSize
+                    && b.Status == Status.Active
+                    && b.Id != booking.Id
+                )
+                .ToListAsync();
+
+            foreach (var existing in existingBookings)
+            {
+                Console.WriteLine(existing.Id);
+
+                if (booking.StartDate < existing.EndDate && booking.EndDate > existing.StartDate)
+                    return false;
+            }
+            return true;
+        }
     }
 }
