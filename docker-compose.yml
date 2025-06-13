@@ -1,24 +1,55 @@
-version: '3.4'
-
-networks:
-  dev:
-    driver: bridge
+version: "3.8"
 
 services:
   db:
     image: postgres:latest
     container_name: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: booking
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5433:5433"
+      - "${DB_PORT_EXTERNAL}:5432"
     restart: always
     volumes:
       - app_data:/var/lib/postgres/data
     networks:
       - dev
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:  
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+      - ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=${DB_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - dev
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      - API_URL=http://server:5000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - server
+    restart: unless-stopped
+    networks:
+      - dev
+
+networks:
+  dev:
+    driver: bridge
 
 volumes:
   app_data:

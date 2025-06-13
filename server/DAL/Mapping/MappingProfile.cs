@@ -1,7 +1,6 @@
 using AutoMapper;
 using Core.DTOs;
 using DAL.Entities;
-using Shared.Enums;
 
 namespace DAL.Mapping
 {
@@ -10,18 +9,30 @@ namespace DAL.Mapping
         public MappingProfile()
         {
             CreateMap<Booking, BookingDTO>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+                .ForMember(dest => dest.Workspace, opt => opt.MapFrom(src => src.Workspace));
+
+            CreateMap<BookingDTO, Booking>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Workspace, opt => opt.Ignore());
+
+            CreateMap<Amenity, AmenityDTO>().ReverseMap();
+            CreateMap<Capacity, CapacityDTO>().ReverseMap();
+            CreateMap<RoomAvailability, RoomAvailabilityDTO>().ReverseMap();
+            CreateMap<MyImage, MyImageDTO>().ReverseMap();
+
+            CreateMap<Workspace, BaseWorkspaceDTO>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+                .ReverseMap();
+
+            CreateMap<Workspace, WorkspaceDTO>()
+                .ForMember(dest => dest.Booked, opt => opt.Ignore())
+                .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities))
                 .ForMember(
-                    dest => dest.WorkspaceType,
-                    opt => opt.MapFrom(src => (int)src.WorkspaceType)
+                    dest => dest.CapacityOptions,
+                    opt => opt.MapFrom(src => src.CapacityOptions)
                 )
-                .ReverseMap()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (Status)src.Status))
-                .ForMember(
-                    dest => dest.WorkspaceType,
-                    opt => opt.MapFrom(src => (Workspace)src.WorkspaceType)
-                );
-            CreateMap<BookingsList, BookingsListDTO>().ReverseMap();
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+                .ReverseMap();
         }
     }
 }

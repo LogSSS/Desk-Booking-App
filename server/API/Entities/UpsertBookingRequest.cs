@@ -1,3 +1,5 @@
+using Shared.Enums;
+
 namespace API.Entities
 {
     public class UpsertBookingRequest
@@ -14,14 +16,18 @@ namespace API.Entities
 
         public string Email { get; set; }
 
-        public int WorkspaceType { get; set; }
-
-        public int Status { get; set; }
+        public WorkspaceType WorkspaceType { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public int BookingsListId { get; set; }
+        public int RoomSize { get; set; }
+
+        public int WorkspaceId { get; set; }
+
+        public Status Status { get; set; }
+
+        public int OwnerId { get; set; }
     }
 }
