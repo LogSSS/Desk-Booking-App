@@ -113,6 +113,55 @@
         </div>
       </div>
     </div>
+
+    <div
+      *ngIf="workspace.booked"
+      class="mt-8 p-3 rounded-lg bg-green-50 flex items-center gap-x-3"
+    >
+      <div
+        class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+      <p class="text-gray-900 text-sm">
+        This workspace is already booked by you!
+
+        <ng-container *ngIf="workspace.booked.roomSize > 0; else deskInfo">
+          Room for {{ workspace.booked.roomSize }} people
+        </ng-container>
+        <ng-template #deskInfo> Desk for you </ng-template>
+
+        <ng-container *ngIf="isSingleDayBooking; else dateRangeInfo">
+          on
+          <span class="font-bold">{{
+            workspace.booked.startDate | date : "MMMM d, y"
+          }}</span>
+        </ng-container>
+        <ng-template #dateRangeInfo>
+          from
+          <span class="font-bold">{{
+            workspace.booked.startDate | date : "MMMM d, y"
+          }}</span>
+          to
+          <span class="font-bold">{{
+            workspace.booked.endDate | date : "MMMM d, y"
+          }}</span>
+        </ng-template>
+      </p>
+    </div>
   </div>
   <app-booking-modal
     *ngIf="isBookingModalOpen"

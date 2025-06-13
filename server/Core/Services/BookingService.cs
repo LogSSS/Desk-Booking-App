@@ -24,9 +24,10 @@ namespace Core.Services
             return await _bookingRepository.GetAllAsync();
         }
 
-        public async Task<BookingDTO> CreateAsync(BookingDTO booking)
+        public async Task<BookingDTO?> CreateAsync(BookingDTO booking)
         {
-            await IsBookingAvailable(booking);
+            if (!await IsBookingAvailable(booking))
+                return null;
             return await _bookingRepository.CreateAsync(booking);
         }
 
@@ -36,7 +37,8 @@ namespace Core.Services
                 return null;
 
             booking.Id = id;
-            await IsBookingAvailable(booking);
+            if (!await IsBookingAvailable(booking))
+                return null;
 
             var updatedBooking = await _bookingRepository.UpdateAsync(id, booking);
             return updatedBooking;
@@ -47,16 +49,16 @@ namespace Core.Services
             return await _bookingRepository.DeleteAsync(id);
         }
 
-        private async Task IsBookingAvailable(BookingDTO booking)
+        private async Task<bool> IsBookingAvailable(BookingDTO booking)
         {
             if (booking.EndDate <= booking.StartDate)
-                throw new ArgumentException("End date must be after start date.");
+                return false;
 
-            if (booking.StartDate.ToUniversalTime() <= DateTime.UtcNow)
-                throw new ArgumentException("Start date must be in the future.");
-
+            if (booking.EndDate.ToUniversalTime() <= DateTime.UtcNow)
+                return false;
+            var workspaceId = booking.WorkspaceId - 1;
             if (
-                booking.WorkspaceId
+                workspaceId
                 is (int)Shared.Enums.WorkspaceType.OpenSpace
                     or (int)Shared.Enums.WorkspaceType.PrivateRooms
             )
@@ -65,20 +67,17 @@ namespace Core.Services
                     (booking.EndDate - booking.StartDate)
                     > TimeSpan.FromDays(Constants.OpenSpaceAndPrivateRoomMaxDays)
                 )
-                    throw new ArgumentException(
-                        $"Booking duration must be at max {Constants.OpenSpaceAndPrivateRoomMaxDays} days."
-                    );
+                    return false;
             }
-            else if (booking.WorkspaceId is (int)Shared.Enums.WorkspaceType.MeetingRooms)
+            else if (workspaceId is (int)Shared.Enums.WorkspaceType.MeetingRooms)
             {
                 if (booking.StartDate.Date != booking.EndDate.Date)
-                    throw new ArgumentException(
-                        "Meeting room bookings must start and end on the same day."
-                    );
+                    return false;
             }
 
             if (!await _bookingRepository.IsBookingAvailable(booking))
-                throw new InvalidOperationException("Booking overlaps with an existing booking.");
+                return false;
+            return true;
         }
     }
 }

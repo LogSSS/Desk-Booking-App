@@ -352,12 +352,13 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       ...this.parseTime(formVal.endTime)
     );
 
+    console.log('Start Date:', startDate);
+    console.log('End Date:', endDate);
+
     const payload: UpsertBooking = {
       name: formVal.name,
       email: formVal.email,
-
       workspaceId: workspaceType + 1,
-
       roomSize:
         workspaceType === WorkspaceType.OpenSpace
           ? 0
@@ -377,7 +378,13 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     if (this.isEditMode) {
       this.bookingService.updateBooking(this.booking!.id, payload).subscribe({
         next: () => this.close.emit(true),
-        error: errorHandler,
+        error: (err) => {
+          if (err.status === 400) {
+            this.showErrorState = true;
+            this.showSuccessState = false;
+            this.cdr.detectChanges();
+          }
+        },
       });
     } else {
       this.bookingService.createBooking(payload).subscribe({
@@ -392,13 +399,21 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
           this.showSuccessState = true;
           this.cdr.detectChanges();
         },
-        error: errorHandler,
+        error: (err) => {
+          if (err.status === 400) {
+            this.showErrorState = true;
+            this.showSuccessState = false;
+            this.cdr.detectChanges();
+          }
+        },
       });
     }
   }
 
   closeErrorModal(): void {
     this.showErrorState = false;
+    this.bookingForm.markAsUntouched();
+    this.bookingForm.markAsPristine();
   }
 
   navigateToMyBookings(): void {

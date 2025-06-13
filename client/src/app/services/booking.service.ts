@@ -48,10 +48,6 @@ export class BookingService {
   }
 
   deleteBooking(id: number): Observable<void> {
-    return this.http
-      .delete<void>(`${this.apiUrl}/${id}`)
-      .pipe(
-        tap(() => console.log(`Booking with ID ${id} deleted successfully.`))
-      );
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
