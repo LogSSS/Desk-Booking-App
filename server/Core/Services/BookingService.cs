@@ -31,7 +31,9 @@ namespace Core.Services
 
         public async Task<BookingDTO?> UpdateAsync(int id, BookingDTO booking)
         {
-            //check if availability of the booking (check time)
+            if (await _bookingRepository.GetByIdAsync(id) == null)
+                return null;
+
             var updatedBooking = await _bookingRepository.UpdateAsync(id, booking);
             return updatedBooking;
         }

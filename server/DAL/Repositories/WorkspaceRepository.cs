@@ -2,7 +2,6 @@ using AutoMapper;
 using Core.DTOs;
 using Core.IRepositories;
 using DAL.Data;
-using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Shared.Constants;
 
