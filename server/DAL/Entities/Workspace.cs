@@ -14,6 +14,7 @@ namespace DAL.Entities
             Amenities = [];
             CapacityOptions = [];
             Images = [];
+            Bookings = [];
         }
 
         [Key]
@@ -35,6 +36,6 @@ namespace DAL.Entities
 
         public IList<MyImage> Images { get; set; }
 
-        public Booking? Booked { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

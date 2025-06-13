@@ -41,6 +41,14 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                );
+            });
         }
 
         public void Configure(
@@ -70,6 +78,9 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCors("AllowAllOrigins");
+
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

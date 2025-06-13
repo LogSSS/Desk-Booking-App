@@ -8,7 +8,9 @@ namespace API.Mapping
     {
         public APIMappingProfile()
         {
-            CreateMap<UpsertBookingRequest, BookingDTO>().ReverseMap();
+            CreateMap<UpsertBookingRequest, BookingDTO>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

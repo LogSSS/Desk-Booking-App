@@ -9,8 +9,11 @@ namespace DAL.Mapping
         public MappingProfile()
         {
             CreateMap<Booking, BookingDTO>()
-                .ForMember(dest => dest.Workspace, opt => opt.MapFrom(src => src.Workspace))
-                .ReverseMap();
+                .ForMember(dest => dest.Workspace, opt => opt.MapFrom(src => src.Workspace));
+
+            CreateMap<BookingDTO, Booking>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Workspace, opt => opt.Ignore());
 
             CreateMap<Amenity, AmenityDTO>().ReverseMap();
             CreateMap<Capacity, CapacityDTO>().ReverseMap();
@@ -22,7 +25,7 @@ namespace DAL.Mapping
                 .ReverseMap();
 
             CreateMap<Workspace, WorkspaceDTO>()
-                .ForMember(dest => dest.Booked, opt => opt.MapFrom(src => src.Booked))
+                .ForMember(dest => dest.Booked, opt => opt.Ignore())
                 .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities))
                 .ForMember(
                     dest => dest.CapacityOptions,

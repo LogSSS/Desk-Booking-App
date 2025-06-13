@@ -4,6 +4,7 @@ using Core.IRepositories;
 using DAL.Data;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Enums;
 
 namespace DAL.Repositories
@@ -26,7 +27,7 @@ namespace DAL.Repositories
                 .Bookings.Include(b => b.Workspace)
                 .ThenInclude(b => b.CapacityOptions)
                 .ThenInclude(b => b.RoomAvailabilities)
-                .FirstOrDefaultAsync(b => b.Id == id);
+                .FirstOrDefaultAsync(b => b.Id == id && b.Status == Status.Active);
 
             if (booking == null)
                 return null;
@@ -37,7 +38,10 @@ namespace DAL.Repositories
         public async Task<List<BookingDTO>> GetAllAsync()
         {
             var bookings = await _context
-                .Bookings.Include(b => b.Workspace)
+                .Bookings.Where(b =>
+                    b.OwnerId == Constants.SuperUserId && b.Status == Status.Active
+                )
+                .Include(b => b.Workspace)
                 .ThenInclude(b => b.Images)
                 .ToListAsync();
             return _mapper.Map<List<BookingDTO>>(bookings);
@@ -48,6 +52,7 @@ namespace DAL.Repositories
             var bookingEntity = _mapper.Map<Booking>(booking);
             _context.Bookings.Add(bookingEntity);
             bookingEntity.CreatedAt = DateTime.UtcNow;
+            bookingEntity.OwnerId = Constants.SuperUserId;
             await _context.SaveChangesAsync();
             return _mapper.Map<BookingDTO>(bookingEntity);
         }
@@ -58,8 +63,9 @@ namespace DAL.Repositories
             if (existingEntity == null)
                 return null;
 
+            booking.Id = id;
+
             _mapper.Map(booking, existingEntity);
-            _context.Bookings.Update(existingEntity);
             await _context.SaveChangesAsync();
             return _mapper.Map<BookingDTO>(existingEntity);
         }
@@ -70,7 +76,7 @@ namespace DAL.Repositories
             if (bookingEntity == null)
                 return false;
 
-            bookingEntity.Status = Status.Deleted;
+            bookingEntity.Status = Status.Cancelled;
             _context.Bookings.Update(bookingEntity);
             await _context.SaveChangesAsync();
             return true;

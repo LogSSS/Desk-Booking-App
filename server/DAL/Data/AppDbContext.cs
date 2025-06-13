@@ -27,9 +27,8 @@ namespace DAL.Data
             modelBuilder
                 .Entity<Booking>()
                 .HasOne(b => b.Workspace)
-                .WithOne(w => w.Booked)
-                .HasForeignKey<Booking>(b => b.WorkspaceId)
-                .IsRequired(false);
+                .WithMany(w => w.Bookings)
+                .HasForeignKey(b => b.WorkspaceId);
 
             modelBuilder
                 .Entity<Workspace>()

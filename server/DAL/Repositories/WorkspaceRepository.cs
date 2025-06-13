@@ -45,12 +45,16 @@ namespace DAL.Repositories
                 .ToListAsync();
 
             var mappedWorkspaces = workspaces
-                .Select(x =>
-                {
-                    x.Workspace.Booked = x.Booked;
-                    return _mapper.Map<WorkspaceDTO?>(x.Workspace);
-                })
+                .Select(w => _mapper.Map<WorkspaceDTO>(w.Workspace))
                 .ToList();
+
+            foreach (var workspace in mappedWorkspaces)
+            {
+                var booked = workspaces.FirstOrDefault(w => w.Workspace.Id == workspace.Id)?.Booked;
+
+                if (booked != null)
+                    workspace.Booked = _mapper.Map<BookingDTO>(booked);
+            }
 
             return mappedWorkspaces;
         }
