@@ -1,5 +1,8 @@
 ### Git ignore file ###
 
+### ENV ###
+.env
+
 ### Angular ###
 ## Angular ##
 # compiled output
