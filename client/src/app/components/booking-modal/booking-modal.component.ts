@@ -352,9 +352,6 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       ...this.parseTime(formVal.endTime)
     );
 
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
-
     const payload: UpsertBooking = {
       name: formVal.name,
       email: formVal.email,
