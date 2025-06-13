@@ -1,6 +1,3 @@
-using API.Entities;
-using AutoMapper;
-using Core.DTOs;
 using Core.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 

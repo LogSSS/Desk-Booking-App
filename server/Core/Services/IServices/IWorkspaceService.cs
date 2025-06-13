@@ -4,6 +4,6 @@ namespace Core.Services.IServices
 {
     public interface IWorkspaceService
     {
-        Task<List<WorkspaceDTO?>> GetAllAsync();
+        Task<List<WorkspaceDTO>> GetAllAsync();
     }
 }

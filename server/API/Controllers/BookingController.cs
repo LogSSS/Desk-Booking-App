@@ -75,7 +75,10 @@ namespace API.Controllers
                 );
 
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
-            await _bookingService.UpdateAsync(id, bookingDTO);
+            var booking = await _bookingService.UpdateAsync(id, bookingDTO);
+
+            if (booking == null)
+                return NotFound();
 
             return NoContent();
         }
