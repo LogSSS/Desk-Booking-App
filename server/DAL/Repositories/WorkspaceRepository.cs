@@ -20,7 +20,7 @@ namespace DAL.Repositories
             _mapper = mapper;
         }
 
-        public async Task<List<WorkspaceDTO?>> GetAllAsync()
+        public async Task<List<WorkspaceDTO>> GetAllAsync()
         {
             var superUserId = Constants.SuperUserId;
             var currentDate = DateTime.UtcNow;
@@ -50,6 +50,12 @@ namespace DAL.Repositories
 
             foreach (var workspace in mappedWorkspaces)
             {
+                foreach (var capacityOption in workspace.CapacityOptions)
+                    capacityOption.RoomAvailabilities =
+                    [
+                        .. capacityOption.RoomAvailabilities.OrderBy(r => r.MaxPeople),
+                    ];
+
                 var booked = workspaces.FirstOrDefault(w => w.Workspace.Id == workspace.Id)?.Booked;
 
                 if (booked != null)

@@ -4,6 +4,6 @@ namespace Core.IRepositories
 {
     public interface IWorkspaceRepository
     {
-        Task<List<WorkspaceDTO?>> GetAllAsync();
+        Task<List<WorkspaceDTO>> GetAllAsync();
     }
 }

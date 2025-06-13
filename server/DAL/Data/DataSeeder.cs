@@ -137,7 +137,7 @@ namespace DAL.Data
                     {
                         Id = 6,
                         IconContent =
-                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/airconditioning_hvyv3h.svg",
+                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/air-conditioning_hvyv3h.svg",
                         WorkspaceId = 2,
                     },
                     new Amenity
@@ -158,7 +158,7 @@ namespace DAL.Data
                     {
                         Id = 9,
                         IconContent =
-                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/airconditioning_hvyv3h.svg",
+                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/air-conditioning_hvyv3h.svg",
                         WorkspaceId = 3,
                     },
                     new Amenity

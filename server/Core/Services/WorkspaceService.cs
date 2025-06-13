@@ -13,7 +13,7 @@ namespace Core.Services
             _workspaceRepository = workspaceRepository;
         }
 
-        public async Task<List<WorkspaceDTO?>> GetAllAsync()
+        public async Task<List<WorkspaceDTO>> GetAllAsync()
         {
             return await _workspaceRepository.GetAllAsync();
         }
