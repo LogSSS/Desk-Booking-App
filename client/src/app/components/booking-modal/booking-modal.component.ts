@@ -9,7 +9,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -25,12 +25,12 @@ import {
 import { Workspace } from '../../models/workspace.model';
 import { BookingService } from '../../services/booking.service';
 import { Subscription, combineLatest, startWith } from 'rxjs';
+import { error } from 'console';
 
 @Component({
   selector: 'app-booking-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DatePipe],
-  providers: [DatePipe],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './booking-modal.component.html',
 })
 export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
@@ -50,6 +50,8 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     email: string;
     workspaceType: WorkspaceType;
   } | null = null;
+
+  showErrorState = false;
 
   WorkspaceType = WorkspaceType;
 
@@ -90,7 +92,6 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
     private fb: FormBuilder,
     private bookingService: BookingService,
     private router: Router,
-    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -332,13 +333,15 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
       ownerId: this.isEditMode ? this.booking!.ownerId : -1,
     };
 
+    const errorHandler = () => {
+      this.showErrorState = true;
+      this.cdr.detectChanges();
+    };
+
     if (this.isEditMode) {
       this.bookingService.updateBooking(this.booking!.id, payload).subscribe({
         next: () => this.close.emit(true),
-        error: () => {
-          alert('Update failed.');
-          this.close.emit(false);
-        },
+        error: errorHandler,
       });
     } else {
       this.bookingService.createBooking(payload).subscribe({
@@ -353,18 +356,17 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
           this.showSuccessState = true;
           this.cdr.detectChanges();
         },
-        error: () => {
-          alert('Booking creation failed.');
-          this.close.emit(false);
-        },
+        error: errorHandler,
       });
     }
   }
 
+  closeErrorModal(): void {
+    this.showErrorState = false;
+  }
+
   navigateToMyBookings(): void {
-    this.showSuccessState = false;
-    this.successDetails = null;
-    this.close.emit(true);
+    this.closeModal();
     this.router.navigate(['/my']);
   }
 
@@ -376,6 +378,7 @@ export class BookingModalComponent implements OnInit, OnChanges, OnDestroy {
 
   closeModal(): void {
     this.showSuccessState = false;
+    this.showErrorState = false;
     this.successDetails = null;
     this.close.emit(false);
   }
