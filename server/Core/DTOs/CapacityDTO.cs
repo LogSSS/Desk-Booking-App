@@ -8,6 +8,7 @@ namespace Core.DTOs
         }
 
         public int Id { get; set; }
+
         public IList<RoomAvailabilityDTO> RoomAvailabilities { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace DAL.Data
 
         public DbSet<RoomAvailability> RoomAvailabilities { get; set; }
 
+        public DbSet<MyImage> Images { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -25,9 +27,8 @@ namespace DAL.Data
             modelBuilder
                 .Entity<Booking>()
                 .HasOne(b => b.Workspace)
-                .WithOne(w => w.Booked)
-                .HasForeignKey<Booking>(b => b.WorkspaceId)
-                .IsRequired(false);
+                .WithMany(w => w.Bookings)
+                .HasForeignKey(b => b.WorkspaceId);
 
             modelBuilder
                 .Entity<Workspace>()
@@ -46,6 +47,12 @@ namespace DAL.Data
                 .HasMany(c => c.RoomAvailabilities)
                 .WithOne(r => r.Capacity)
                 .HasForeignKey(r => r.CapacityId);
+
+            modelBuilder
+                .Entity<Workspace>()
+                .HasMany(i => i.Images)
+                .WithOne(w => w.Workspace)
+                .HasForeignKey(i => i.WorkspaceId);
 
             DataSeeder.Seed(modelBuilder);
         }

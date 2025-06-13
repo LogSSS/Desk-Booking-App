@@ -1,0 +1,42 @@
+<div class="flex h-screen bg-gray-100 font-sans">
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+      <div class="w-40 h-10 overflow-hidden flex justify-center items-center">
+        <img
+          class="object-cover w-full h-full"
+          src="https://s3-alpha-sig.figma.com/img/9579/e449/674f37b3f4c621dda79a69aff18255d5?Expires=1750032000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=fSjo9cyI79svQBRbPltQAyG-6WN9-rYBsJyMjlqSlD9UOwZ2Ux3hTa2k7Fqm-QNIhWYtt97OfAgkLj5KvEAMoMhG3pu~Y~J-v7YcfbuhJDkTYtbKNFn4OEEH6bDH3Ccn5q~bJXPtYNh~91UuYLu~tr7QP5VRJrqfDsbkrxRNG8TLYhi3YP3E~5bGr34ZTjpAg2pQizJfO8XBxyaDcnB7Oh5mUJt6DtsIoylhWb~NH8~516mmqJg~PqgvL7d-r8x3HUXt2cJ8~ehhm7BylNPJQ-5iIOGXxLs-ccS-agnzm7jeBxjOa5YPD7wxVgcmvjybIgMA1zIGtmtev-AnE6OMTQ__"
+          alt="Logo"
+        />
+      </div>
+
+      <div class="flex items-center space-x-5 pr-4">
+        <div>
+          <ul class="flex space-x-4 list-none">
+            <li>
+              <a
+                [routerLink]="'/workspace'"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="nav-link"
+                >Workspace</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="'/my'"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="nav-link"
+                >My Bookings</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
