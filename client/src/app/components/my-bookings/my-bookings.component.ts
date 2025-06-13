@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import {
   Observable,
@@ -32,10 +32,18 @@ export class MyBookingsComponent implements OnInit {
   public showDeleteModal = false;
   public bookingToDeleteId: number | null = null;
   public bookingToEdit: Booking | null = null;
-  
-  constructor(private bookingService: BookingService,
-    private cd: ChangeDetectorRef
-  ) {}
+
+  constructor(
+    private bookingService: BookingService,
+    private cd: ChangeDetectorRef,
+    private router: Router
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.refreshTrigger.next();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.bookings$ = this.refreshTrigger.pipe(

@@ -73,7 +73,7 @@ namespace API.Controllers
                         ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                     )
                 );
-                
+
             var bookingDTO = _mapper.Map<BookingDTO>(upsertBookingRequest);
             await _bookingService.UpdateAsync(id, bookingDTO);
 

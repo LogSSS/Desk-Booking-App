@@ -102,14 +102,14 @@ namespace DAL.Data
                     {
                         Id = 1,
                         IconContent =
-                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/airconditioning_hvyv3h.svg",
+                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761603/air-conditioning_hvyv3h.svg",
                         WorkspaceId = 1,
                     },
                     new Amenity
                     {
                         Id = 2,
                         IconContent =
-                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761679/devicegamepad2_qoildh.svg",
+                            "https://res.cloudinary.com/darmngqvc/image/upload/v1749761679/device-gamepad-2_qoildh.svg",
                         WorkspaceId = 1,
                     },
                     new Amenity
